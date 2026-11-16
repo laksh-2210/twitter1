@@ -1,0 +1,1070 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConnectX - Social Media</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f6f9;
+    color: #17202b;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+.hidden { display: none !important; }
+
+/* LOGIN */
+#authPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg,#101d38,#1688c9);
+    padding: 20px;
+}
+
+.auth-box {
+    background: white;
+    width: 370px;
+    max-width: 100%;
+    padding: 35px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.logo {
+    color: #1688c9;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.auth-box h2 { margin: 15px 0; }
+
+.auth-box input {
+    width: 100%;
+    padding: 13px;
+    margin: 9px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.primary {
+    background: #1688c9;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.auth-box .primary {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.auth-box p {
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.auth-box span {
+    color: #1688c9;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* MAIN APP */
+#appPage { min-height: 100vh; }
+
+.navbar {
+    background: white;
+    height: 65px;
+    padding: 0 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar .logo { margin: 0; }
+
+.logout {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+}
+
+.layout {
+    max-width: 1200px;
+    margin: 25px auto;
+    display: grid;
+    grid-template-columns: 220px minmax(0,600px) 260px;
+    gap: 20px;
+    padding: 0 15px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+    border: 1px solid #e6e9ed;
+}
+
+.sidebar h3 { margin-bottom: 15px; }
+
+.side-btn {
+    width: 100%;
+    padding: 13px;
+    background: white;
+    text-align: left;
+    font-size: 16px;
+    border-radius: 8px;
+    margin-bottom: 7px;
+}
+
+.side-btn:hover { background: #eaf5fc; }
+
+.profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1688c9;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 19px;
+    object-fit: cover;
+}
+
+.small-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #1688c9;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info { flex: 1; min-width: 0; }
+.user-info small { color: gray; }
+
+textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 75px;
+    padding: 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.post-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post-buttons label {
+    color: #1688c9;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.post-buttons button { padding: 10px 22px; }
+
+.post {
+    padding: 18px;
+    background: white;
+    border: 1px solid #e6e9ed;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.post-header .user-info { flex: 1; }
+
+.post-text {
+    margin: 15px 0;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: contain;
+    background: #f1f1f1;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+    gap: 5px;
+}
+
+.post-actions button {
+    background: white;
+    color: #657786;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.post-actions button:hover { background: #edf6fc; }
+
+.post-actions .liked { color: #e63962; }
+
+.comment-area {
+    display: flex;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.comment-area input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+}
+
+.comment-area button {
+    background: #1688c9;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 20px;
+}
+
+.comment {
+    background: #f3f6f9;
+    border-radius: 9px;
+    padding: 9px;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.follow-btn {
+    background: #1688c9;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 20px;
+}
+
+.following-btn {
+    background: white;
+    color: #1688c9;
+    border: 1px solid #1688c9;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.stats strong {
+    display: block;
+    font-size: 20px;
+}
+
+.stats span {
+    color: gray;
+    font-size: 13px;
+}
+
+.profile-cover {
+    height: 100px;
+    background: linear-gradient(120deg,#1688c9,#5bc0eb);
+    border-radius: 10px;
+}
+
+.profile-details {
+    text-align: center;
+    margin-top: -25px;
+}
+
+.profile-details .profile-avatar {
+    width: 70px;
+    height: 70px;
+    border: 4px solid white;
+}
+
+.profile-details h2 { margin-top: 8px; }
+
+.profile-details p {
+    color: gray;
+    margin-top: 5px;
+}
+
+.right-title { margin-bottom: 15px; }
+
+.suggest-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.suggest-user .user-info { flex: 1; }
+
+.suggest-user .follow-btn {
+    padding: 7px 10px;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: gray;
+}
+
+#message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #17202b;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 20;
+}
+
+@media(max-width:900px) {
+    .layout {
+        grid-template-columns: 180px minmax(0,1fr);
+    }
+    .right-sidebar { display: none; }
+}
+
+@media(max-width:600px) {
+    .layout {
+        display: block;
+        margin-top: 12px;
+    }
+    .left-sidebar { display: none; }
+    .navbar { padding: 0 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN / SIGNUP -->
+<div id="authPage">
+    <div class="auth-box">
+        <div class="logo">ConnectX</div>
+        <h2 id="authTitle">Login</h2>
+
+        <div id="signupName" class="hidden">
+            <input id="name" placeholder="Full Name">
+        </div>
+
+        <input id="email" type="email" placeholder="Email Address">
+        <input id="password" type="password" placeholder="Password">
+
+        <button class="primary" onclick="authenticate()" id="authButton">
+            Login
+        </button>
+
+        <p id="authSwitch">
+            Don't have an account?
+            <span onclick="toggleAuth()">Sign Up</span>
+        </p>
+    </div>
+</div>
+
+<!-- MAIN APPLICATION -->
+<div id="appPage" class="hidden">
+
+    <header class="navbar">
+        <div class="logo">ConnectX</div>
+        <div class="user-row">
+            <span id="navName"></span>
+            <button class="logout" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="layout">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="left-sidebar">
+            <div class="card sidebar">
+                <h3>Menu</h3>
+                <button class="side-btn" onclick="showHome()">🏠 Home</button>
+                <button class="side-btn" onclick="showProfile()">👤 My Profile</button>
+                <button class="side-btn" onclick="showPeople()">👥 Explore People</button>
+                <button class="side-btn" onclick="showFollowing()">➕ Following</button>
+                <button class="side-btn" onclick="showFollowers()">❤️ Followers</button>
+            </div>
+
+            <div class="card">
+                <h3>My Account</h3>
+                <p id="sideEmail" style="color:gray;font-size:13px;margin-top:8px;"></p>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main id="mainContent"></main>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="right-sidebar">
+            <div class="card">
+                <h3 class="right-title">Who to follow</h3>
+                <div id="suggestions"></div>
+            </div>
+
+            <div class="card">
+                <h3>About ConnectX</h3>
+                <p style="color:gray;line-height:1.6;margin-top:10px;">
+                    Connect with friends, share your moments, like posts and discover new people.
+                </p>
+            </div>
+        </aside>
+
+    </div>
+</div>
+
+<div id="message"></div>
+
+<script>
+
+// DATABASE USING LOCAL STORAGE
+
+let users = JSON.parse(localStorage.getItem("cx_users")) || [];
+let posts = JSON.parse(localStorage.getItem("cx_posts")) || [];
+let currentUser = localStorage.getItem("cx_currentUser") || null;
+let isSignup = false;
+
+function saveData() {
+    localStorage.setItem("cx_users", JSON.stringify(users));
+    localStorage.setItem("cx_posts", JSON.stringify(posts));
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    })[c]);
+}
+
+function getUser(id) {
+    return users.find(u => u.id === id);
+}
+
+function me() {
+    return getUser(currentUser);
+}
+
+function avatar(user, size="small-avatar") {
+    if(user.photo) {
+        return `<img class="${size}" src="${user.photo}" alt="Avatar">`;
+    }
+    return `<div class="${size}">${escapeHTML(user.name[0].toUpperCase())}</div>`;
+}
+
+function notify(msg) {
+    const box = document.getElementById("message");
+    box.innerText = msg;
+    box.style.display = "block";
+    setTimeout(() => box.style.display = "none", 2500);
+}
+
+// AUTHENTICATION
+
+function toggleAuth() {
+    isSignup = !isSignup;
+
+    document.getElementById("signupName").classList.toggle("hidden", !isSignup);
+    document.getElementById("authTitle").innerText = isSignup ? "Create Account" : "Login";
+    document.getElementById("authButton").innerText = isSignup ? "Sign Up" : "Login";
+
+    document.getElementById("authSwitch").innerHTML = isSignup
+        ? 'Already have an account? <span onclick="toggleAuth()">Login</span>'
+        : 'Don\'t have an account? <span onclick="toggleAuth()">Sign Up</span>';
+}
+
+function authenticate() {
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+
+    if(!email || !password) {
+        alert("Please enter email and password");
+        return;
+    }
+
+    if(isSignup) {
+        const name = document.getElementById("name").value.trim();
+
+        if(!name) {
+            alert("Enter your name");
+            return;
+        }
+
+        if(password.length < 4) {
+            alert("Password must have at least 4 characters");
+            return;
+        }
+
+        if(users.some(u => u.email === email)) {
+            alert("Email already registered");
+            return;
+        }
+
+        const user = {
+            id: "u" + Date.now(),
+            name,
+            email,
+            password,
+            bio: "Hello! I am using ConnectX.",
+            photo: "",
+            following: [],
+            followers: []
+        };
+
+        users.push(user);
+        currentUser = user.id;
+
+    } else {
+        const user = users.find(
+            u => u.email === email && u.password === password
+        );
+
+        if(!user) {
+            alert("Invalid email or password");
+            return;
+        }
+
+        currentUser = user.id;
+    }
+
+    localStorage.setItem("cx_currentUser", currentUser);
+    saveData();
+    openApp();
+}
+
+function logout() {
+    localStorage.removeItem("cx_currentUser");
+    currentUser = null;
+
+    document.getElementById("appPage").classList.add("hidden");
+    document.getElementById("authPage").classList.remove("hidden");
+
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+
+    notify("Logged out successfully");
+}
+
+function openApp() {
+    if(!me()) {
+        logout();
+        return;
+    }
+
+    document.getElementById("authPage").classList.add("hidden");
+    document.getElementById("appPage").classList.remove("hidden");
+
+    document.getElementById("navName").innerText = me().name;
+    document.getElementById("sideEmail").innerText = me().email;
+
+    showHome();
+    renderSuggestions();
+}
+
+// CREATE POST
+
+function createPost() {
+    const content = document.getElementById("postText").value.trim();
+    const imageInput = document.getElementById("postImage");
+
+    if(!content && !imageInput.files.length) {
+        alert("Write something or select an image");
+        return;
+    }
+
+    const file = imageInput.files[0];
+
+    if(file && !file.type.startsWith("image/")) {
+        alert("Please select an image file");
+        return;
+    }
+
+    if(file && file.size > 2 * 1024 * 1024) {
+        alert("Image must be less than 2 MB");
+        return;
+    }
+
+    function publish(image) {
+        posts.unshift({
+            id: "p" + Date.now(),
+            userId: currentUser,
+            content,
+            image: image || "",
+            likes: [],
+            comments: [],
+            date: new Date().toLocaleString()
+        });
+
+        saveData();
+        showHome();
+        notify("Post published successfully!");
+    }
+
+    if(file) {
+        const reader = new FileReader();
+        reader.onload = e => publish(e.target.result);
+        reader.readAsDataURL(file);
+    } else {
+        publish("");
+    }
+}
+
+// HOME FEED
+
+function showHome() {
+    const main = document.getElementById("mainContent");
+
+    main.innerHTML = `
+        <div class="card">
+            <h3>Create a Post</h3>
+            <textarea id="postText" placeholder="What's happening?"></textarea>
+
+            <div class="post-buttons">
+                <label>
+                    📷 Add Image
+                    <input type="file" id="postImage" accept="image/*" hidden>
+                </label>
+                <button class="primary" onclick="createPost()">Post</button>
+            </div>
+        </div>
+
+        <h3 style="margin:20px 0;">Your Feed</h3>
+
+        <div id="feed">
+            ${renderPosts(posts)}
+        </div>
+    `;
+}
+
+function renderPosts(list) {
+    if(!list.length) {
+        return `<div class="card empty">No posts yet. Be the first to post!</div>`;
+    }
+
+    return list.map(post => {
+        const user = getUser(post.userId);
+        if(!user) return "";
+
+        const liked = post.likes.includes(currentUser);
+
+        return `
+        <article class="post">
+
+            <div class="post-header">
+                ${avatar(user)}
+                <div class="user-info">
+                    <strong>${escapeHTML(user.name)}</strong><br>
+                    <small>@${escapeHTML(user.email.split("@")[0])}</small>
+                    <br><small>${escapeHTML(post.date)}</small>
+                </div>
+
+                ${post.userId === currentUser
+                    ? `<button onclick="deletePost('${post.id}')" style="color:#e74c3c;background:white;">🗑</button>`
+                    : ""}
+            </div>
+
+            <div class="post-text">${escapeHTML(post.content)}</div>
+
+            ${post.image
+                ? `<img class="post-image" src="${post.image}" alt="Post image">`
+                : ""}
+
+            <div style="font-size:13px;color:gray;margin-bottom:10px;">
+                ${post.likes.length} Likes · ${post.comments.length} Comments
+            </div>
+
+            <div class="post-actions">
+                <button class="${liked ? "liked" : ""}"
+                    onclick="toggleLike('${post.id}')">
+                    ${liked ? "❤️ Liked" : "🤍 Like"}
+                </button>
+
+                <button onclick="focusComment('${post.id}')">
+                    💬 Comment
+                </button>
+
+                <button onclick="sharePost('${post.id}')">
+                    🔗 Share
+                </button>
+            </div>
+
+            <div id="comments-${post.id}">
+                ${post.comments.map(c => {
+                    const commenter = getUser(c.userId);
+                    return commenter ? `
+                        <div class="comment">
+                            <strong>${escapeHTML(commenter.name)}:</strong>
+                            ${escapeHTML(c.text)}
+                        </div>` : "";
+                }).join("")}
+            </div>
+
+            <div class="comment-area">
+                <input id="comment-${post.id}" placeholder="Write a comment...">
+                <button onclick="addComment('${post.id}')">Send</button>
+            </div>
+
+        </article>
+        `;
+    }).join("");
+}
+
+// LIKE
+
+function toggleLike(postId) {
+    const post = posts.find(p => p.id === postId);
+    if(!post) return;
+
+    if(post.likes.includes(currentUser)) {
+        post.likes = post.likes.filter(id => id !== currentUser);
+    } else {
+        post.likes.push(currentUser);
+    }
+
+    saveData();
+    showHome();
+}
+
+// COMMENT
+
+function focusComment(id) {
+    document.getElementById("comment-" + id)?.focus();
+}
+
+function addComment(postId) {
+    const input = document.getElementById("comment-" + postId);
+    const text = input.value.trim();
+
+    if(!text) {
+        alert("Write a comment");
+        return;
+    }
+
+    const post = posts.find(p => p.id === postId);
+    post.comments.push({
+        userId: currentUser,
+        text
+    });
+
+    saveData();
+    showHome();
+}
+
+// SHARE
+
+async function sharePost(postId) {
+    const post = posts.find(p => p.id === postId);
+    const user = getUser(post.userId);
+
+    const shareText = `${user.name} posted on ConnectX:\n${post.content}`;
+
+    try {
+        if(navigator.share) {
+            await navigator.share({title:"ConnectX Post", text:shareText});
+        } else if(navigator.clipboard) {
+            await navigator.clipboard.writeText(shareText);
+            notify("Post copied! You can share it.");
+        } else {
+            prompt("Copy this post:", shareText);
+        }
+    } catch(error) {
+        if(error.name !== "AbortError") notify("Unable to share");
+    }
+}
+
+// DELETE POST
+
+function deletePost(id) {
+    if(!confirm("Delete this post?")) return;
+
+    posts = posts.filter(p => p.id !== id);
+    saveData();
+    showHome();
+    notify("Post deleted");
+}
+
+// FOLLOW / UNFOLLOW
+
+function toggleFollow(userId) {
+    if(userId === currentUser) return;
+
+    const current = me();
+    const other = getUser(userId);
+
+    if(!other) return;
+
+    if(current.following.includes(userId)) {
+        current.following = current.following.filter(id => id !== userId);
+        other.followers = other.followers.filter(id => id !== currentUser);
+        notify("Unfollowed successfully");
+    } else {
+        current.following.push(userId);
+
+        if(!other.followers.includes(currentUser)) {
+            other.followers.push(currentUser);
+        }
+
+        notify("Following " + other.name);
+    }
+
+    saveData();
+    showProfile();
+    renderSuggestions();
+}
+
+// PEOPLE
+
+function showPeople() {
+    const people = users.filter(u => u.id !== currentUser);
+
+    document.getElementById("mainContent").innerHTML = `
+        <div class="card">
+            <h2>Explore People 🌎</h2>
+            <p style="color:gray;margin-top:8px;">Discover and connect with people.</p>
+        </div>
+
+        ${people.length ? people.map(user => personCard(user)).join("")
+            : `<div class="card empty">No other users yet. Create another account to explore!</div>`}
+    `;
+}
+
+function personCard(user) {
+    const following = me().following.includes(user.id);
+
+    return `
+        <div class="card user-row">
+            ${avatar(user)}
+            <div class="user-info">
+                <strong>${escapeHTML(user.name)}</strong><br>
+                <small>${user.followers.length} Followers</small>
+            </div>
+
+            <button class="follow-btn ${following ? "following-btn" : ""}"
+                onclick="toggleFollow('${user.id}')">
+                ${following ? "Following" : "Follow"}
+            </button>
+        </div>
+    `;
+}
+
+// MY PROFILE
+
+function showProfile() {
+    const user = me();
+
+    const userPosts = posts.filter(p => p.userId === currentUser);
+
+    document.getElementById("mainContent").innerHTML = `
+        <div class="card">
+            <div class="profile-cover"></div>
+
+            <div class="profile-details">
+                ${avatar(user,"profile-avatar")}
+                <h2>${escapeHTML(user.name)}</h2>
+                <p>${escapeHTML(user.email)}</p>
+                <p>${escapeHTML(user.bio)}</p>
+            </div>
+
+            <div class="stats">
+                <div><strong>${userPosts.length}</strong><span>Posts</span></div>
+                <div><strong>${user.followers.length}</strong><span>Followers</span></div>
+                <div><strong>${user.following.length}</strong><span>Following</span></div>
+            </div>
+
+            <button class="primary" style="width:100%;"
+                onclick="editProfile()">Edit Profile</button>
+        </div>
+
+        <h3 style="margin:20px 0;">My Posts</h3>
+        ${renderPosts(userPosts)}
+    `;
+}
+
+// EDIT PROFILE
+
+function editProfile() {
+    const user = me();
+
+    document.getElementById("mainContent").innerHTML = `
+        <div class="card">
+            <h2>Edit Profile</h2>
+
+            <input id="editName" value="${escapeHTML(user.name)}"
+                placeholder="Name"
+                style="width:100%;padding:12px;margin-top:15px;border:1px solid #ddd;border-radius:8px;">
+
+            <textarea id="editBio" style="border:1px solid #ddd;margin-top:12px;"
+                placeholder="Your Bio">${escapeHTML(user.bio)}</textarea>
+
+            <label style="display:block;margin:12px 0;">
+                Change Profile Picture
+                <input type="file" id="editPhoto" accept="image/*">
+            </label>
+
+            <button class="primary" onclick="saveProfile()">Save Changes</button>
+            <button class="primary" style="background:#777;"
+                onclick="showProfile()">Cancel</button>
+        </div>
+    `;
+}
+
+function saveProfile() {
+    const name = document.getElementById("editName").value.trim();
+    const bio = document.getElementById("editBio").value.trim();
+    const file = document.getElementById("editPhoto").files[0];
+
+    if(!name) {
+        alert("Name cannot be empty");
+        return;
+    }
+
+    if(file && !file.type.startsWith("image/")) {
+        alert("Please select an image");
+        return;
+    }
+
+    if(file && file.size > 2 * 1024 * 1024) {
+        alert("Image must be less than 2 MB");
+        return;
+    }
+
+    function finish(photo) {
+        me().name = name;
+        me().bio = bio;
+
+        if(photo) me().photo = photo;
+
+        saveData();
+        openApp();
+        notify("Profile updated");
+    }
+
+    if(file) {
+        const reader = new FileReader();
+        reader.onload = e => finish(e.target.result);
+        reader.readAsDataURL(file);
+    } else {
+        finish("");
+    }
+}
+
+// FOLLOWERS AND FOLLOWING
+
+function showFollowers() {
+    const people = me().followers.map(id => getUser(id)).filter(Boolean);
+
+    document.getElementById("mainContent").innerHTML = `
+        <div class="card"><h2>❤️ My Followers</h2></div>
+        ${people.length
+            ? people.map(user => personCard(user)).join("")
+            : `<div class="card empty">You don't have any followers yet.</div>`}
+    `;
+}
+
+function showFollowing() {
+    const people = me().following.map(id => getUser(id)).filter(Boolean);
+
+    document.getElementById("mainContent").innerHTML = `
+        <div class="card"><h2>➕ Following</h2></div>
+        ${people.length
+            ? people.map(user => personCard(user)).join("")
+            : `<div class="card empty">You are not following anyone yet.</div>`}
+    `;
+}
+
+// SUGGESTIONS
+
+function renderSuggestions() {
+    const box = document.getElementById("suggestions");
+
+    if(!box) return;
+
+    const people = users.filter(
+        u => u.id !== currentUser && !me().following.includes(u.id)
+    ).slice(0,5);
+
+    box.innerHTML = people.length
+        ? people.map(user => `
+            <div class="suggest-user">
+                ${avatar(user)}
+                <div class="user-info">
+                    <strong>${escapeHTML(user.name)}</strong><br>
+                    <small>@${escapeHTML(user.email.split("@")[0])}</small>
+                </div>
+                <button class="follow-btn"
+                    onclick="toggleFollow('${user.id}')">+</button>
+            </div>
+        `).join("")
+        : `<p style="color:gray;font-size:13px;">No suggestions available.</p>`;
+}
+
+// START APPLICATION
+
+if(currentUser && me()) {
+    openApp();
+} else {
+    document.getElementById("authPage").classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
